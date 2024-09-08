@@ -23,7 +23,7 @@ function ProductCards({ data }) {
 					</p>
 					<div className="flex items-center flex-wrap ">
 						<Link
-							to={`/products/${data.id}`}
+							to={`/product/${data.id}`}
 							className="text-yellow-500 inline-flex items-center md:mb-2 lg:mb-0"
 						>
 							Learn More

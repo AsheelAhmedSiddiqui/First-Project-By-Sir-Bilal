@@ -1,5 +1,8 @@
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { addDoc, app, getFirestore } from "../firebase";
+import { collection } from "firebase/firestore";
 
 function Signup() {
 	const [userName, setUserName] = useState("");
@@ -7,13 +10,43 @@ function Signup() {
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 
+	const auth = getAuth(app);
+	const db = getFirestore(app);
+
 	const goback = () => {
 		navigate("/");
 	};
 
 	const signup = (e) => {
 		e.preventDefault();
+		document.getElementById("signUpBtn").disabled = true;
+		document.getElementById("signUpBtn").innerText = "loading...";
 		console.log(userName, userEmail, password);
+		createUserWithEmailAndPassword(auth, userEmail, password)
+			.then(async (userCredential) => {
+				// Signed up
+				const user = userCredential.user;
+				console.log(user);
+				
+				// ...
+				try {
+					const docRef = await addDoc(collection(db, "users"), {
+						name: userName,
+						email: userEmail,
+						password: password,
+					});
+					console.log("Document written with ID: ", docRef.id);
+				} catch (e) {
+					console.error("Error adding document: ", e);
+				}
+				document.getElementById("signUpBtn").disabled = false;
+				document.getElementById("signUpBtn").innerText = "Create Account";
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				// ..
+			});
 	};
 
 	return (
@@ -66,9 +99,10 @@ function Signup() {
 					<div className="signup flex items-center justify-center">
 						<button
 							onClick={signup}
+							id="signUpBtn"
 							className="py-2 px-6 text-lg font-medium rounded-lg bg-teal-300"
 						>
-							Sign up
+							Create Account
 						</button>
 					</div>
 					<div className="goback flex items-center justify-center">

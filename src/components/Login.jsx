@@ -1,15 +1,39 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, useNavigate } from "react-router-dom";
+import { app } from "../firebase";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Products from "./Products";
 
 function Login() {
-	const [userName, setUserName] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const navigate = useNavigate();
+	const auth = getAuth(app);
 
 	const login = (e) => {
 		e.preventDefault();
-		console.log(userName, password);
-	};
 
+		document.getElementById("loginBtn").disabled = true;
+		document.getElementById("loginBtn").innerText = "loading...";
+
+		signInWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				// Signed in
+				document.getElementById("loginBtn").innerText = "login";
+				document.getElementById("loginBtn").disabled = false;
+				const user = userCredential.user;
+				navigate("/")
+				// ...
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				document.getElementById("loginBtn").innerText = "login";
+				document.getElementById("loginBtn").disabled = false;
+				alert("error===> " + errorCode);
+			});
+	};
 
 	return (
 		<>
@@ -26,7 +50,7 @@ function Login() {
 							id="email"
 							name="email"
 							placeholder="Enter your registered email"
-							onChange={(e) => setUserName(e.target.value)}
+							onChange={(e) => setEmail(e.target.value)}
 							required
 						/>
 					</div>
@@ -44,11 +68,20 @@ function Login() {
 							required
 						/>
 					</div>
-					<p className="text-sm">If you have no account? <Link to={"signup"} className="text-sm text-blue-500 hover:underline hover:text-blue-900 transition-all">Create Account</Link></p>
+					<p className="text-sm">
+						If you have no account?{" "}
+						<Link
+							to={"/signup"}
+							className="text-sm text-blue-500 hover:underline hover:text-blue-900 transition-all"
+						>
+							Create Account
+						</Link>
+					</p>
 					<hr className="mb-4 border-slate-300 rounded" />
 					<div className="loginBtn flex items-center justify-center">
 						<button
 							onClick={login}
+							id="loginBtn"
 							className="py-2 px-6 text-lg font-medium rounded-lg bg-teal-300"
 						>
 							Login

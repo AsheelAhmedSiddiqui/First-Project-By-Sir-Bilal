@@ -12,7 +12,7 @@ function ProductDetails() {
 	useEffect(() => {
 		setNotFound(false);
 		try {
-			fetch(`https://dummyjson.com/products/${id}`)
+			fetch(`https://dummyjson.com/product/${id}`)
 				.then((res) => res.json())
 				.then((data) => {
 					console.log("data=>", data);

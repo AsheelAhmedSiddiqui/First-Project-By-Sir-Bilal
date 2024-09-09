@@ -11,7 +11,7 @@ import Signup from "./components/Signup";
 import Top from "./components/Top";
 import ProductDetails from "./components/ProductDetails";
 import Header from "./components/Header";
-import UserContextProvider from "./context/UserContext";
+import UserContextProvider from "./context/UserContext.jsx";
 
 function App() {
 	// const location = useLocation();

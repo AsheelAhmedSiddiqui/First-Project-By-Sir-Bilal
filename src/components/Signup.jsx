@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { addDoc, app, getFirestore } from "../firebase";
 import { collection } from "firebase/firestore";
 
@@ -21,19 +21,19 @@ function Signup() {
 		e.preventDefault();
 		document.getElementById("signUpBtn").disabled = true;
 		document.getElementById("signUpBtn").innerText = "loading...";
-		console.log(userName, userEmail, password);
 		createUserWithEmailAndPassword(auth, userEmail, password)
 			.then(async (userCredential) => {
 				// Signed up
 				const user = userCredential.user;
 				console.log(user);
-				
+
 				// ...
 				try {
 					const docRef = await addDoc(collection(db, "users"), {
 						name: userName,
 						email: userEmail,
 						password: password,
+						userID: user.uid,
 					});
 					console.log("Document written with ID: ", docRef.id);
 				} catch (e) {
@@ -41,10 +41,12 @@ function Signup() {
 				}
 				document.getElementById("signUpBtn").disabled = false;
 				document.getElementById("signUpBtn").innerText = "Create Account";
+				navigate("/");
 			})
 			.catch((error) => {
 				const errorCode = error.code;
 				const errorMessage = error.message;
+				alert(errorCode);
 				// ..
 			});
 	};

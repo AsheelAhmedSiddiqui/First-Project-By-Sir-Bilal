@@ -1,9 +1,33 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../context/userContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { getAuth, signOut } from "firebase/auth";
 import { app } from "../firebase";
+import UserInfo from "./UserInfo";
+import AccountLink from "./AccountLink";
 
 function Header() {
-	const auth = getAuth(app);
+	const navigate = useNavigate();
+	const userData = useContext(UserContext);
+	const currUser = userData.user;
+	console.log(currUser);
+
+	function logout() {
+		const auth = getAuth(app);
+		signOut(auth)
+			.then(() => {
+				// Sign-out successful.
+				navigate("/login");
+			})
+			.catch((error) => {
+				// An error happened.
+				navigate("/");
+				alert("error===> ", error);
+			});
+	}
+
 	return (
 		<header className="text-gray-600 body-font">
 			<div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -26,26 +50,15 @@ function Header() {
 					<span className="ml-3 text-xl">Tailblocks</span>
 				</Link>
 				<nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-					<Link to={"/login"} className="mr-5 hover:text-gray-900">
-						Login
-					</Link>
-					<Link to={"/signup"} className="mr-5 hover:text-gray-900">
-						Create Account
-					</Link>
+					{!userData.user ? (
+						<AccountLink />
+					) : (
+						<UserInfo logout={logout} userEmail={currUser.data.email} />
+					)}
 				</nav>
-				{/* {onAuthStateChanged(auth, (user) => {
-					if (user) {
-						// User is signed in, see docs for a list of available properties
-						// https://firebase.google.com/docs/reference/js/auth.user
-						const uid = user.uid;
-						console.log(uid);
-						
-						// ...
-					} else {
-						// User is signed out
-						// ...
-					}
-				})} */}
+				{/* { 
+					!userData.user ? <div>Milgaya</div>:
+				} */}
 			</div>
 		</header>
 	);

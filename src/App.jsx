@@ -11,28 +11,31 @@ import Signup from "./components/Signup";
 import Top from "./components/Top";
 import ProductDetails from "./components/ProductDetails";
 import Header from "./components/Header";
+import UserContextProvider from "./context/userContext";
 
 function App() {
 	// const location = useLocation();
 	// const hideHeaderFooter =
 	// 	location.pathname === "/login" || location.pathname === "/signup";
 	return (
-		<BrowserRouter>
-			<Top />
-			<Outlet />
-			<Header />
-			<Routes>
-				{/* <Route path="/" element={<Login />} />
+		<UserContextProvider>
+			<BrowserRouter>
+				<Top />
+				<Outlet />
+				<Header />
+				<Routes>
+					{/* <Route path="/" element={<Login />} />
 				<Route path="/signup" element={<Signup />} /> */}
-				<Route path="/" element={<Products />} />
-				<Route path="/Login" element={<Login />} />
-				<Route path="/signup" element={<Signup />} />
-				<Route path="/product">
-					<Route index element={<Products />} />
-					<Route path=":id" element={<ProductDetails />} />
-				</Route>
-			</Routes>
-		</BrowserRouter>
+					<Route path="/" element={<Products />} />
+					<Route path="/Login" element={<Login />} />
+					<Route path="/signup" element={<Signup />} />
+					<Route path="/product">
+						<Route index element={<Products />} />
+						<Route path=":id" element={<ProductDetails />} />
+					</Route>
+				</Routes>
+			</BrowserRouter>
+		</UserContextProvider>
 	);
 }
 

@@ -19,11 +19,14 @@ function UserContextProvider({ children }) {
 				// console.log(user);
 				// console.log(user)
 				const uid = user.uid;
+
 				setUser({
 					isLogin: true,
 					data: {
 						uid: user.uid,
+						displayName: user.displayName,
 						email: user.email,
+						photo: user.photoURL,
 					},
 				});
 				// ...
@@ -36,7 +39,9 @@ function UserContextProvider({ children }) {
 				});
 			}
 		});
+		console.log(user.data)
 	}, []);
+
 
 	return (
 		<UserContext.Provider value={{ user, setUser }}>

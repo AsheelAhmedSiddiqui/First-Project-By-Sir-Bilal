@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link, Route, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { app } from "../firebase";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import Products from "./Products";
+import {
+	getAuth,
+	GoogleAuthProvider,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
 
 function Login() {
 	const [email, setEmail] = useState("");
@@ -23,7 +26,7 @@ function Login() {
 				document.getElementById("loginBtn").innerText = "login";
 				document.getElementById("loginBtn").disabled = false;
 				const user = userCredential.user;
-				navigate("/")
+				navigate("/");
 				// ...
 			})
 			.catch((error) => {
@@ -34,6 +37,8 @@ function Login() {
 				alert("error===> " + errorCode);
 			});
 	};
+
+	const provider = new GoogleAuthProvider();
 
 	return (
 		<>

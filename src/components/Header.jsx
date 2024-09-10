@@ -48,10 +48,10 @@ function Header() {
 					<span className="ml-3 text-xl">Tailblocks</span>
 				</Link>
 				<nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-					{!userData.user ? (
-						<AccountLink />
-					) : (
+					{currUser.isLogin ? (
 						<UserInfo logout={logout} userEmail={currUser.data.email} />
+					) : (
+						<AccountLink />
 					)}
 				</nav>
 				{/* { 

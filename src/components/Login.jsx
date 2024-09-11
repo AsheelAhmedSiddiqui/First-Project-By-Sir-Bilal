@@ -94,7 +94,7 @@ function Login() {
 							className="py-2 px-4 border rounded w-80 border-slate-600"
 							id="password"
 							name="password"
-							placeholder="Enter your registered email"
+							placeholder="Enter your password"
 							onChange={(e) => setPassword(e.target.value)}
 							required
 						/>

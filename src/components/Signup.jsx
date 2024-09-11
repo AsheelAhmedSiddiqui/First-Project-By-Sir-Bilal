@@ -65,7 +65,7 @@ function Signup() {
 							className="py-2 px-4 border rounded w-80 border-slate-600"
 							id="username"
 							name="username"
-							placeholder="Enter your registered email"
+							placeholder="Enter Username"
 							onChange={(e) => setUserName(e.target.value)}
 							required
 						/>
@@ -79,7 +79,7 @@ function Signup() {
 							className="py-2 px-4 border rounded w-80 border-slate-600"
 							id="email"
 							name="email"
-							placeholder="Enter your registered email"
+							placeholder="Enter your email"
 							onChange={(e) => setuserEmail(e.target.value)}
 							required
 						/>
@@ -93,7 +93,7 @@ function Signup() {
 							className="py-2 px-4 border rounded w-80 border-slate-600"
 							id="password"
 							name="password"
-							placeholder="Enter your registered email"
+							placeholder="Enter your password"
 							onChange={(e) => setPassword(e.target.value)}
 							required
 						/>
